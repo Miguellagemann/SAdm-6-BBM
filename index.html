@@ -1,395 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Intranet | SAdmC - 6º BBM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        :root {
-            --azul-fundo-dark: #001233;
-            --azul-fundo-light: #002855;
-            --laranja-cbm: #FF9E3D; 
-            --vermelho-cbm: #C40000;
-            --azul-texto: #002B5B;
-            --cinza-fundo: #F4F6F9;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAdmC - 6º BBM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #001233;
+      color: #333;
+      margin: 0;
+      padding: 40px;
+    }
 
-        * { box-sizing: border-box; transition: all 0.2s ease; }
-        body { margin: 0; font-family: 'Open Sans', sans-serif; background: var(--azul-fundo-dark); display: flex; flex-direction: column; min-height: 100vh; color: #334155; }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+    }
 
-        /* --- TELA DE LOGIN --- */
-        #loginScreen { flex: 1; background: radial-gradient(circle at center, var(--azul-fundo-light) 0%, var(--azul-fundo-dark) 100%); display: flex; justify-content: center; align-items: center; padding: 15px; }
-        .login-container { display: flex; max-width: 850px; width: 100%; min-height: 480px; border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
-        
-        .login-left-side { background: rgba(109, 125, 150, 0.7); backdrop-filter: blur(15px); flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
-        .cbmrs-logo-text { font-size: clamp(40px, 10vw, 82px); font-weight: 800; margin: 0; background: linear-gradient(to right, #FFEB3B 0%, #FF9800 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .login-right-side { background: #FFFFFF; flex: 1.2; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
-        .login-right-side h2 { color: var(--azul-texto); font-weight: 800; margin: 0; }
-        .input-group { margin-top: 15px; position: relative; }
-        .input-group label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .login-right-side input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ddd; background: #f8fafc; font-size: 14px; }
-        .btn-entrar { width: 100%; padding: 15px; background: var(--vermelho-cbm); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 700; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-entrar:hover { background: #a00000; transform: scale(1.02); }
-        #togglePassword { position: absolute; right: 15px; top: 32px; cursor: pointer; color: #94a3b8; font-size: 18px; }
+    h1 {
+      color: #002B5B;
+      text-align: center;
+    }
 
-        /* --- DASHBOARD --- */
-        #sistema { display: none; flex: 1; background: var(--cinza-fundo); }
-        .header-top { background: var(--azul-texto); color: #fff; text-align: center; padding: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; position: relative; }
-        .btn-menu-open { position: absolute; left: 20px; background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
-        
-        .container { max-width: 1100px; margin: 30px auto; padding: 20px; }
-        .welcome-box { background: linear-gradient(to right, var(--azul-texto), var(--azul-fundo-light)); padding: 25px; border-radius: 12px; color: white; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        #relogioGrande { font-size: 28px; font-weight: 800; letter-spacing: 1px; }
-
-        /* --- PAINEL MASTER --- */
-        #painelDev { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.05); margin-bottom: 30px; border: 1px solid #e2e8f0; }
-        .painel-header { background: #f8fafc; padding: 15px 20px; font-weight: 800; border-bottom: 1px solid #eee; color: var(--azul-texto); display: flex; align-items: center; gap: 10px; }
-        .form-cadastro-militar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; padding: 20px; background: #fafafa; }
-        .form-cadastro-militar input, .form-cadastro-militar select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; }
-        
-        .tabela-militares { width: 100%; border-collapse: collapse; }
-        .tabela-militares th { background: #f1f5f9; padding: 15px; text-align: left; font-size: 11px; text-transform: uppercase; color: #64748b; }
-        .tabela-militares td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        .badge-secao { background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
-
-        /* --- CATEGORIAS --- */
-        .category-section { margin-bottom: 40px; display: none; }
-        .category-title { border-left: 5px solid var(--vermelho-cbm); padding-left: 15px; font-weight: 800; font-size: 20px; color: var(--azul-texto); margin-bottom: 20px; text-transform: uppercase; }
-        .link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-        .link-card { background: white; padding: 25px; border-radius: 12px; text-align: center; text-decoration: none; color: inherit; border: 1px solid #e2e8f0; display: flex; flex-direction: column; align-items: center; }
-        .link-card:hover { transform: translateY(-5px); border-color: var(--laranja-cbm); box-shadow: 0 10px 15px rgba(0,0,0,0.05); }
-        .link-card i { font-size: 35px; color: var(--azul-texto); margin-bottom: 15px; }
-        .link-card strong { font-size: 16px; color: var(--azul-texto); }
-
-        /* --- MENU LATERAL --- */
-        #menuLateral { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: var(--azul-fundo-dark); z-index: 1000; transition: 0.3s; padding-top: 20px; }
-        #menuLateral.ativo { left: 0; }
-        .menu-item { padding: 15px 25px; color: white; text-decoration: none; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-weight: 600; }
-        .menu-item:hover { background: var(--azul-fundo-light); color: var(--laranja-cbm); }
-        #overlay { position: fixed; display: none; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
-
-        /* --- FOOTER --- */
-        .footer-oficial { background: #000E1F; color: #fff; padding: 40px 20px; border-top: 5px solid var(--vermelho-cbm); text-align: center; }
-        .footer-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left; }
-        .footer-column h4 { color: var(--laranja-cbm); margin-bottom: 15px; text-transform: uppercase; font-size: 14px; }
-        .footer-column p { font-size: 13px; opacity: 0.7; line-height: 1.6; margin: 5px 0; }
-    </style>
+    .aviso {
+      background: #f5f5f5;
+      border-left: 6px solid #FF9E3D;
+      padding: 15px;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>SAdmC - 6º BBM</h1>
 
-<div id="overlay" onclick="toggleMenu()"></div>
-
-<div id="menuLateral">
-    <div style="text-align: center; padding: 20px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Brasao_cbmrs.png" width="70">
-        <p style="color: white; font-weight: 800; margin-top: 10px; letter-spacing: 1px;">INTRANET 6º BBM</p>
+    <div class="aviso">
+      Página institucional do Sistema Administrativo do 6º BBM.
+      <br><br>
+      Este site está temporariamente em revisão de segurança.
+      <br><br>
+      A página atual é estática, não possui login, não coleta dados pessoais,
+      não solicita senha, não possui anúncios e não realiza download ou instalação de software.
     </div>
-    <div id="menuDinamico"></div>
-    <a class="menu-item" onclick="solicitarRedefinicaoManual()" style="color: var(--laranja-cbm);"><i class="fas fa-key"></i> ALTERAR SENHA</a>
-    <a class="menu-item" onclick="location.reload()" style="color: #ff6b6b; border-top: 1px solid rgba(255,255,255,0.1);"><i class="fas fa-sign-out-alt"></i> SAIR DO PORTAL</a>
-</div>
-
-<div id="loginScreen">
-    <div class="login-container">
-        <div class="login-left-side">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Brasao_cbmrs.png" width="150" style="margin-bottom: 20px;">
-            <h1 class="cbmrs-logo-text">CBMRS</h1>
-            <p style="text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">6º Batalhão de Bombeiro Militar</p>
-        </div>
-        <div class="login-right-side">
-            <h2>Portal SAdmC</h2>
-            <p style="color: #64748b; font-size: 13px; margin-bottom: 10px;">SISTEMA DE GERENCIAMENTO ADMINISTRATIVO</p>
-            
-            <div class="input-group">
-                <label>E-mail Institucional</label>
-                <input type="email" id="email" placeholder="exemplo@cbm.rs.gov.br">
-            </div>
-            
-            <div class="input-group">
-                <label>Senha de Acesso</label>
-                <input type="password" id="senha" placeholder="******">
-                <i class="fas fa-eye" id="togglePassword"></i>
-            </div>
-            
-            <button class="btn-entrar" id="btnEntrar" onclick="login()">Autenticar</button>
-            <p style="text-align: center; margin-top: 20px; font-size: 12px; color: #64748b; cursor: pointer;" onclick="solicitarRedefinicaoManual()">
-                Esqueceu sua senha? Clique para redefinir.
-            </p>
-        </div>
-    </div>
-</div>
-
-<div id="sistema">
-    <div class="header-top">
-        <button class="btn-menu-open" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        CORPO DE BOMBEIROS MILITAR DO ESTADO DO RIO GRANDE DO SUL
-    </div>
-    
-    <div class="container">
-        <div class="welcome-box">
-            <div>
-                <h2 id="msgBoasVindas">Bem-vindo</h2>
-                <p id="dataExtenso" style="margin: 5px 0 0 0; opacity: 0.8; font-size: 14px;"></p>
-            </div>
-            <div style="text-align: right;">
-                <span id="relogioGrande">00:00:00</span>
-            </div>
-        </div>
-
-        <div id="painelDev" style="display: none;">
-            <div class="painel-header"><i class="fas fa-user-shield"></i> GESTÃO DE ACESSOS E MILITARES (MASTER)</div>
-            <div class="form-cadastro-militar">
-                <input type="text" id="novoNome" placeholder="Nome Completo">
-                <input type="email" id="novoEmail" placeholder="E-mail Institucional">
-                <select id="novaSecao">
-                    <option value="B1">B1 - Pessoal</option>
-                    <option value="B2">B2 - Inteligência</option>
-                    <option value="B3">B3 - Operações</option>
-                    <option value="B4">B4 - Logística</option>
-                    <option value="SCor">SCor - Correição</option>
-                </select>
-                <select id="novoNivel">
-                    <option value="user">Usuário</option>
-                    <option value="admin">Administrador</option>
-                    <option value="MASTER">Master</option>
-                </select>
-                <button onclick="cadastrarMilitar()" style="background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 800;">CADASTRAR</button>
-            </div>
-            <div style="overflow-x: auto;">
-                <table class="tabela-militares">
-                    <thead>
-                        <tr>
-                            <th>Nome do Militar</th>
-                            <th>Seção</th>
-                            <th>Nível</th>
-                            <th style="text-align:center">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="corpoTabela"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <div id="cat-B1" class="category-section">
-            <div class="category-title">B1 - Seção de Pessoal</div>
-            <div class="link-grid">
-                <a href="#" class="link-card"><i class="fas fa-calendar-alt"></i><strong>Escalas de Serviço</strong></a>
-                <a href="#" class="link-card"><i class="fas fa-users"></i><strong>Efetivo do 6º BBM</strong></a>
-                <a href="#" class="link-card"><i class="fas fa-file-invoice"></i><strong>Férias e Licenças</strong></a>
-            </div>
-        </div>
-
-        <div id="cat-B2" class="category-section">
-            <div class="category-title">B2 - Inteligência</div>
-            <div class="link-grid">
-                <a href="#" class="link-card"><i class="fas fa-user-secret"></i><strong>Relatórios de Inteligência</strong></a>
-            </div>
-        </div>
-
-        <div id="cat-B3" class="category-section">
-            <div class="category-title">B3 - Operações e Defesa Civil</div>
-            <div class="link-grid">
-                <a href="#" class="link-card"><i class="fas fa-map-marked-alt"></i><strong>Planos de Contingência</strong></a>
-                <a href="#" class="link-card"><i class="fas fa-fire-extinguisher"></i><strong>Estatísticas Operacionais</strong></a>
-            </div>
-        </div>
-
-        <div id="cat-B4" class="category-section">
-            <div class="category-title">B4 - Logística e Patrimônio</div>
-            <div class="link-grid">
-                <a href="#" class="link-card"><i class="fas fa-tools"></i><strong>Manutenção de Viaturas</strong></a>
-                <a href="#" class="link-card"><i class="fas fa-gas-pump"></i><strong>Controle de Combustível</strong></a>
-                <a href="#" class="link-card"><i class="fas fa-box-open"></i><strong>Carga e Patrimônio</strong></a>
-            </div>
-        </div>
-
-        <div id="cat-SCor" class="category-section">
-            <div class="category-title">SCor - Seção de Correição</div>
-            <div class="link-grid">
-                <a href="#" class="link-card"><i class="fas fa-gavel"></i><strong>Sindicâncias e PADs</strong></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer class="footer-oficial">
-    <div class="footer-container">
-        <div class="footer-column">
-            <h4>Sede do 6º BBM</h4>
-            <p><i class="fas fa-map-marker-alt"></i> Rua Tenente Coronel Brito, 03</p>
-            <p>Centro - Santa Cruz do Sul - RS</p>
-            <p>CEP: 96810-202</p>
-        </div>
-        <div class="footer-column">
-            <h4>Contato e Suporte</h4>
-            <p><i class="fas fa-phone"></i> (51) 3711-2323</p>
-            <p><i class="fas fa-envelope"></i> 6bbm-sadm@cbm.rs.gov.br</p>
-        </div>
-        <div class="footer-column">
-            <h4>Aviso de Segurança</h4>
-            <p>O acesso a este sistema é restrito a militares autorizados. Todas as ações realizadas são registradas em log de auditoria.</p>
-        </div>
-    </div>
-    <p style="margin-top: 40px; font-size: 11px; opacity: 0.5;">&copy; 2026 Corpo de Bombeiros Militar do Rio Grande do Sul.</p>
-</footer>
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDE0OQwFJ2tDu-Ws2W9ZCalrBQetWoFjwk",
-        authDomain: "sadmc-6bbm-4411d.firebaseapp.com",
-        databaseURL: "https://sadmc-6bbm-4411d-default-rtdb.firebaseio.com",
-        projectId: "sadmc-6bbm-4411d",
-        storageBucket: "sadmc-6bbm-4411d.firebasestorage.app",
-        messagingSenderId: "566392365968",
-        appId: "1:566392365968:web:f18185da477e65ea368915"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    // FUNÇÕES DE INTERFACE (MENU E SENHA)
-    function toggleMenu() {
-        const m = document.getElementById("menuLateral");
-        const o = document.getElementById("overlay");
-        m.classList.toggle("ativo");
-        o.style.display = m.classList.contains("ativo") ? "block" : "none";
-    }
-
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        const senhaInput = document.getElementById('senha');
-        const tipo = senhaInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        senhaInput.setAttribute('type', tipo);
-        this.classList.toggle('fa-eye-slash');
-    });
-
-    // ATALHO TECLA ENTER
-    document.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            if (document.getElementById('sistema').style.display === 'block') {
-                if (document.activeElement.id === 'novoNome' || document.activeElement.id === 'novoEmail') {
-                    cadastrarMilitar();
-                }
-            } else {
-                login();
-            }
-        }
-    });
-
-    // LOGIN
-    async function login() {
-        const email = document.getElementById("email").value;
-        const senha = document.getElementById("senha").value;
-        if(!email || !senha) return alert("Preencha todos os campos.");
-
-        try {
-            const res = await firebase.auth().signInWithEmailAndPassword(email, senha);
-            const snap = await firebase.database().ref('militares/' + res.user.uid).get();
-            if(snap.exists()) {
-                mostrarSistema(snap.val());
-            } else {
-                alert("Usuário não encontrado no banco de dados.");
-            }
-        } catch(e) {
-            alert("Erro na autenticação: Verifique suas credenciais.");
-        }
-    }
-
-    function mostrarSistema(dados) {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("sistema").style.display = "block";
-        document.getElementById("msgBoasVindas").innerText = "Bem-vindo, " + dados.nome;
-        document.getElementById("dataExtenso").innerText = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-        
-        // Controle de Seções
-        const secoes = ["B1", "B2", "B3", "B4", "SCor"];
-        secoes.forEach(s => {
-            if(dados.nivel === "MASTER" || dados.nivel === "admin" || dados.secao === s) {
-                document.getElementById("cat-"+s).style.display = "block";
-            }
-        });
-
-        if(dados.nivel === "MASTER") {
-            document.getElementById("painelDev").style.display = "block";
-            listarMilitares();
-        }
-    }
-
-    // GESTÃO MASTER (CADASTRO E LISTAGEM)
-    async function cadastrarMilitar() {
-        const nome = document.getElementById("novoNome").value;
-        const email = document.getElementById("novoEmail").value;
-        const secao = document.getElementById("novaSecao").value;
-        const nivel = document.getElementById("novoNivel").value;
-        const pProv = Math.random().toString(36).slice(-10); // Senha aleatória inicial
-
-        if(!nome || !email) return alert("Preencha Nome e E-mail!");
-
-        try {
-            const tApp = firebase.initializeApp(firebaseConfig, "Temp");
-            const res = await tApp.auth().createUserWithEmailAndPassword(email, pProv);
-            
-            await firebase.database().ref('militares/' + res.user.uid).set({
-                nome: nome,
-                secao: secao,
-                nivel: nivel
-            });
-
-            // DISPARA CONVITE POR E-MAIL (PLANO C - REDEFINIÇÃO)
-            await tApp.auth().sendPasswordResetEmail(email);
-
-            alert("Militar cadastrado com sucesso! Convite de ativação enviado para o e-mail.");
-            await tApp.delete();
-            
-            document.getElementById("novoNome").value = "";
-            document.getElementById("novoEmail").value = "";
-        } catch(e) {
-            alert("Erro ao cadastrar: " + e.message);
-        }
-    }
-
-    function listarMilitares() {
-        firebase.database().ref('militares').on('value', snap => {
-            const tbody = document.getElementById("corpoTabela");
-            tbody.innerHTML = "";
-            snap.forEach(m => {
-                const v = m.val();
-                tbody.innerHTML += `<tr>
-                    <td><strong>${v.nome}</strong></td>
-                    <td><span class="badge-secao">${v.secao || 'N/A'}</span></td>
-                    <td>${v.nivel}</td>
-                    <td style="text-align:center">
-                        <i class="fas fa-trash-alt" onclick="removerMilitar('${m.key}')" style="color:#e11d48; cursor:pointer;"></i>
-                    </td>
-                </tr>`;
-            });
-        });
-    }
-
-    async function removerMilitar(uid) {
-        if(confirm("Tem certeza que deseja revogar o acesso deste militar?")) {
-            await firebase.database().ref('militares/' + uid).remove();
-        }
-    }
-
-    async function solicitarRedefinicaoManual() {
-        const e = document.getElementById("email").value || prompt("Informe seu e-mail institucional:");
-        if(e) {
-            try {
-                await firebase.auth().sendPasswordResetEmail(e);
-                alert("Link de redefinição enviado com sucesso para: " + e);
-            } catch(err) { alert("Erro ao enviar e-mail."); }
-        }
-    }
-
-    // RELÓGIO
-    setInterval(() => {
-        document.getElementById("relogioGrande").innerText = new Date().toLocaleTimeString('pt-BR');
-    }, 1000);
-</script>
+  </div>
 </body>
 </html>
