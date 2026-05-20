@@ -192,7 +192,7 @@
       line-height: 1.5;
     }
 
-    /* LOGIN */
+    /* LOGIN - ESTILO ANTIGO */
 
     #loginScreen {
       min-height: 100vh;
@@ -200,46 +200,58 @@
       align-items: center;
       justify-content: center;
       padding: 24px 14px;
+      background: radial-gradient(circle at center, var(--azul-institucional) 0%, var(--azul-profundo) 100%);
     }
 
     .login-container {
-      max-width: 880px;
+      display: flex;
+      max-width: 850px;
       width: 100%;
-      min-height: 500px;
-      display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      background: white;
-      border-radius: 18px;
+      min-height: 480px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 22px 45px var(--sombra);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+      background: white;
     }
 
     .login-left-side {
-      background: linear-gradient(135deg, var(--azul-profundo), var(--azul-institucional));
-      color: white;
-      padding: 42px 34px;
+      background: rgba(109, 125, 150, 0.7);
+      backdrop-filter: blur(15px);
+      flex: 1;
+      padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+      color: white;
       text-align: center;
     }
 
-    .login-left-side h1 {
+    .login-left-side img {
+      margin-bottom: 20px;
+    }
+
+    .cbmrs-logo-text {
+      font-size: clamp(40px, 10vw, 82px);
+      font-weight: 800;
       margin: 0;
-      font-size: 3rem;
-      color: var(--dourado);
-      letter-spacing: 1px;
+      background: linear-gradient(to right, #FFEB3B 0%, #FF9800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .login-left-side p {
-      margin: 10px 0 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      margin-top: 10px;
       line-height: 1.5;
-      font-weight: 700;
-      opacity: 0.92;
     }
 
     .login-right-side {
-      padding: 42px 36px;
+      background: #FFFFFF;
+      flex: 1.2;
+      padding: 40px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -247,16 +259,18 @@
 
     .login-right-side h2 {
       color: var(--azul-profundo);
+      font-weight: 800;
       margin: 0;
       font-size: 1.65rem;
-      text-transform: uppercase;
+      text-transform: none;
     }
 
     .login-info {
-      color: var(--texto-suave);
-      font-size: 0.88rem;
-      line-height: 1.45;
-      margin: 10px 0 14px;
+      color: #64748b;
+      font-size: 13px;
+      margin: 8px 0 12px;
+      text-transform: uppercase;
+      font-weight: 600;
     }
 
     .input-group {
@@ -265,21 +279,21 @@
     }
 
     .input-group label {
-      font-size: 0.75rem;
-      font-weight: 900;
-      color: var(--azul-profundo);
-      display: block;
-      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
       text-transform: uppercase;
+      display: block;
+      margin-bottom: 5px;
     }
 
     .login-right-side input {
       width: 100%;
-      padding: 13px 14px;
-      border-radius: 10px;
-      border: 1px solid var(--cinza-borda);
-      background: #F8FAFC;
-      font-size: 0.95rem;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      background: #f8fafc;
+      font-size: 14px;
       outline: none;
     }
 
@@ -290,23 +304,39 @@
 
     #togglePassword {
       position: absolute;
-      right: 13px;
-      top: 36px;
+      right: 15px;
+      top: 32px;
       cursor: pointer;
       color: var(--azul-institucional);
       font-weight: 900;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       user-select: none;
     }
 
     .btn-login {
+      width: 100%;
+      padding: 15px;
+      background: var(--vermelho-cbmrs);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
       margin-top: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: none;
+    }
+
+    .btn-login:hover {
+      background: var(--vermelho-escuro);
+      transform: scale(1.02);
     }
 
     .forgot {
       text-align: center;
       margin-top: 18px;
-      font-size: 0.82rem;
+      font-size: 12px;
       color: var(--azul-institucional);
       cursor: pointer;
       font-weight: 700;
@@ -320,8 +350,8 @@
       margin-top: 12px;
       width: 100%;
       padding: 12px;
-      border: 1px solid var(--cinza-borda);
-      border-radius: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
       background: white;
       color: var(--azul-profundo);
       font-weight: 800;
@@ -676,9 +706,12 @@
     }
 
     @media (max-width: 760px) {
-      .public-card,
-      .login-container {
+      .public-card {
         grid-template-columns: 1fr;
+      }
+
+      .login-container {
+        flex-direction: column;
       }
 
       .public-left,
@@ -695,8 +728,8 @@
         font-size: 1.8rem;
       }
 
-      .login-left-side h1 {
-        font-size: 2.3rem;
+      .cbmrs-logo-text {
+        font-size: 2.8rem;
       }
 
       .header-top {
@@ -759,38 +792,44 @@
   <!-- TELA DE LOGIN -->
   <section id="loginScreen">
     <div class="login-container">
+
       <div class="login-left-side">
-        <div class="brand-badge">6º</div>
-        <h1>CBMRS</h1>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Brasao_cbmrs.png" width="150" alt="Brasão CBMRS">
+        <h1 class="cbmrs-logo-text">CBMRS</h1>
         <p>6º Batalhão de Bombeiro Militar</p>
       </div>
 
       <div class="login-right-side">
-        <h2>Entrada Restrita</h2>
+        <h2>Portal SAdmC</h2>
 
         <p class="login-info">
-          Informe o e-mail cadastrado e a senha do portal. O acesso é permitido apenas a usuários previamente autorizados.
+          Sistema de Gerenciamento Administrativo
         </p>
 
         <div class="input-group">
-          <label>E-mail cadastrado</label>
+          <label>E-mail Institucional</label>
           <input type="email" id="email" placeholder="exemplo@cbm.rs.gov.br" autocomplete="username">
         </div>
 
         <div class="input-group">
-          <label>Senha do portal</label>
+          <label>Senha de Acesso</label>
           <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
           <span id="togglePassword">MOSTRAR</span>
         </div>
 
-        <button class="btn-primary btn-login" id="btnEntrar" onclick="login()">Entrar no portal</button>
+        <button class="btn-primary btn-login" id="btnEntrar" onclick="login()">
+          Autenticar
+        </button>
 
         <div class="forgot" onclick="solicitarRedefinicaoManual()">
-          Esqueceu sua senha do portal? Clique para redefinir.
+          Esqueceu sua senha? Clique para redefinir.
         </div>
 
-        <button class="btn-back" onclick="voltarTelaPublica()">Voltar à tela inicial</button>
+        <button class="btn-back" onclick="voltarTelaPublica()">
+          Voltar à tela inicial
+        </button>
       </div>
+
     </div>
   </section>
 
@@ -835,7 +874,7 @@
 
         <div class="form-cadastro-militar">
           <input type="text" id="novoNome" placeholder="Nome Completo">
-          <input type="email" id="novoEmail" placeholder="E-mail cadastrado">
+          <input type="email" id="novoEmail" placeholder="E-mail Institucional">
 
           <select id="novaSecao">
             <option value="B1">B1 - Pessoal</option>
@@ -979,7 +1018,7 @@
     </div>
   </footer>
 
-  <!-- FIREBASE - MANTIDO IGUAL -->
+  <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -1054,13 +1093,13 @@
       const senha = document.getElementById("senha").value;
 
       if (!email || !senha) {
-        alert("Preencha o e-mail cadastrado e a senha do portal.");
+        alert("Preencha o e-mail institucional e a senha de acesso.");
         return;
       }
 
       const botao = document.getElementById("btnEntrar");
       botao.disabled = true;
-      botao.innerText = "Entrando...";
+      botao.innerText = "Autenticando...";
 
       try {
         const res = await firebase.auth().signInWithEmailAndPassword(email, senha);
@@ -1076,10 +1115,10 @@
         }
 
       } catch (e) {
-        alert("Erro na autenticação. Verifique o e-mail e a senha do portal.");
+        alert("Erro na autenticação. Verifique o e-mail e a senha.");
       } finally {
         botao.disabled = false;
-        botao.innerText = "Entrar no portal";
+        botao.innerText = "Autenticar";
       }
     }
 
@@ -1259,7 +1298,7 @@
       if (campoEmail && campoEmail.value.trim()) {
         email = campoEmail.value.trim();
       } else {
-        email = prompt("Informe o e-mail cadastrado no portal:");
+        email = prompt("Informe o e-mail institucional cadastrado:");
       }
 
       if (!email) return;
